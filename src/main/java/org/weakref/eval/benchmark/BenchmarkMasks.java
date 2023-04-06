@@ -35,8 +35,8 @@ import java.util.concurrent.TimeUnit;
 
 import static org.weakref.eval.benchmark.BenchmarkRunner.benchmark;
 
-@BenchmarkMode(Mode.Throughput)
-@OutputTimeUnit(TimeUnit.SECONDS)
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.NANOSECONDS)
 @Fork(value = 1, jvmArgsAppend = {
         "--add-modules=jdk.incubator.vector",
         "-XX:+UnlockDiagnosticVMOptions",
@@ -65,11 +65,11 @@ public class BenchmarkMasks
         sparse = dense.toSparse();
     }
 
-    @Benchmark
-    public void dense()
-    {
-        dense.forEach(this::consume);
-    }
+//    @Benchmark
+//    public void dense()
+//    {
+//        dense.forEach(this::consume);
+//    }
 
     @Benchmark
     public void denseVectorized()
@@ -77,11 +77,11 @@ public class BenchmarkMasks
         denseVectorized.forEach(this::consume);
     }
 
-    @Benchmark
-    public void sparse()
-    {
-        sparse.forEach(this::consume);
-    }
+//    @Benchmark
+//    public void sparse()
+//    {
+//        sparse.forEach(this::consume);
+//    }
 
     @CompilerControl(CompilerControl.Mode.DONT_INLINE)
     public void consume(int position)

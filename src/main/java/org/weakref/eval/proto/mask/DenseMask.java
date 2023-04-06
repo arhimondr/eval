@@ -16,6 +16,9 @@ package org.weakref.eval.proto.mask;
 import jdk.incubator.vector.ByteVector;
 import jdk.incubator.vector.VectorSpecies;
 
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.SegmentScope;
+import java.lang.foreign.ValueLayout;
 import java.util.function.IntConsumer;
 
 public record DenseMask(boolean[] mask)
@@ -38,12 +41,12 @@ public record DenseMask(boolean[] mask)
 
     public DenseVectorized toVectorized()
     {
-        byte[] vector = new byte[mask.length];
+        MemorySegment segment = MemorySegment.allocateNative(mask.length, 8, SegmentScope.auto());
         for (int i = 0; i < mask.length; i++) {
-            vector[i] = (byte) (mask[i] ? 1 : 0);
+            segment.set(ValueLayout.JAVA_BOOLEAN, i, mask[i]);
         }
 
-        return new DenseVectorized(vector);
+        return new DenseVectorized(segment);
     }
 
     public SparseMask toSparse()

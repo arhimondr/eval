@@ -38,9 +38,9 @@ public class BenchmarkRunner
                 .resultFormat(ResultFormatType.JSON)
                 .result(format("%s/%s-result-%s.json", System.getProperty("java.io.tmpdir"), clazz.getSimpleName(), ISO_DATE_TIME.format(LocalDateTime.now())));
 
-        if (StandardSystemProperty.OS_NAME.value().equals("Linux")) {
-            optionsBuilder.addProfiler(LinuxPerfAsmProfiler.class);
-        }
+//        if (StandardSystemProperty.OS_NAME.value().equals("Linux")) {
+//            optionsBuilder.addProfiler(LinuxPerfAsmProfiler.class);
+//        }
 
         new Runner(optionsBuilder.build()).run();
     }
