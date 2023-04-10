@@ -13,6 +13,9 @@
  */
 package org.weakref.eval.proto.mask;
 
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.SegmentScope;
+import java.lang.foreign.ValueLayout;
 import java.util.function.IntConsumer;
 import java.util.function.IntPredicate;
 
@@ -20,11 +23,21 @@ public class SparseMask
 {
     private final int[] positions;
     private int count;
+    private final MemorySegment segment;
 
     public SparseMask(int[] positions, int count)
     {
         this.positions = positions;
         this.count = count;
+        this.segment = MemorySegment.allocateNative(Integer.BYTES * count, Integer.BYTES, SegmentScope.auto());
+        for (int i = 0; i < count; i++) {
+            segment.setAtIndex(ValueLayout.JAVA_INT, i, positions[i]);
+        }
+    }
+
+    public MemorySegment getSegment()
+    {
+        return segment;
     }
 
     public void forEach(IntConsumer action)

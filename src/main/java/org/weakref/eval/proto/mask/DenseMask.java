@@ -41,7 +41,7 @@ public record DenseMask(boolean[] mask)
 
     public DenseVectorized toVectorized()
     {
-        MemorySegment segment = MemorySegment.allocateNative(mask.length, 8, SegmentScope.auto());
+        MemorySegment segment = MemorySegment.allocateNative(mask.length, BYTE_SPECIES.length(), SegmentScope.auto());
         for (int i = 0; i < mask.length; i++) {
             segment.set(ValueLayout.JAVA_BOOLEAN, i, mask[i]);
         }
